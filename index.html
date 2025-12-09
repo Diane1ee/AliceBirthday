@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alice慶生和歌山之旅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #F7F9F4;
+            color: #4A4A4A;
+        }
+        /* 按鈕互動效果 */
+        .btn-hand {
+            transition: all 0.2s;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        .btn-hand:active {
+            transform: translate(1px, 1px);
+            box-shadow: 0px 0px 0px;
+        }
+        /* 字卡陰影效果 */
+        .card-pop {
+            box-shadow: 5px 5px 0px #9CAF88;
+            border: 2px solid #9CAF88;
+        }
+        /* Visit Japan Web 字卡樣式 */
+        .card-vjw {
+            box-shadow: 5px 5px 0px #7E93A2;
+            border: 2px solid #7E93A2;
+        }
+    </style>
+</head>
+<body class="pb-20" x-data="{ showAbout: false, showVJ: false, showImageModal: false, selectedImageSrc: '', selectedImageTitle: '' }">
+
+    <header class="text-center py-8 px-4 bg-[#F7F9F4]">
+        <h1 class="text-3xl font-bold tracking-widest text-[#5F6F52] mb-2">Alice慶生<br>和歌山之旅</h1>
+        <p class="text-gray-400 text-sm">2025.12.23 - 12.26</p>
+    </header>
+
+    <section class="max-w-md mx-auto px-4 mb-6">
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <h3 class="text-center font-bold text-gray-500 mb-3 text-sm border-b border-gray-100 pb-2">☁️ 和歌山未來一週預報(即時更新)</h3>
+            
+            <a class="weatherwidget-io" 
+               href="https://forecast7.com/zh/34d23135d17/wakayama/" 
+               data-label_1="WAKAYAMA" 
+               data-label_2="和歌山" 
+               data-font="Roboto" 
+               data-icons="Climacons Animated" 
+               data-mode="Forecast" 
+               data-days="7" 
+               data-theme="pure" 
+               data-basecolor="#ffffff" 
+               data-textcolor="#4A4A4A" 
+               data-highcolor="#FF7F50" 
+               data-lowcolor="#87CEEB" 
+               data-suncolor="#FFD700" 
+               data-cloudcolor="#dcdcdc" 
+               data-raincolor="#6A7E8D">
+               WAKAYAMA 和歌山
+            </a>
+            <script>
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+            </script>
+
+        </div>
+    </section>
+
+    <section class="max-w-md mx-auto px-4 mb-8 text-center space-y-3">
+        <button @click="showAbout = true" 
+                class="bg-[#E8EFE6] text-[#5F6F52] px-6 py-3 rounded-full font-bold text-sm btn-hand border border-[#9CAF88] w-full flex items-center justify-center gap-2">
+            <span>🍊</span>
+            <span>關於和歌山 & 當季情報</span>
+            <span>🔍</span>
+        </button>
+
+        <button @click="showVJ = true" 
+                class="bg-white text-gray-500 px-4 py-2 rounded-full text-xs font-bold btn-hand border border-gray-300 w-2/3 mx-auto flex items-center justify-center gap-2 hover:bg-gray-50">
+            <span>📋</span>
+            <span>Visit Japan Web 填寫資料</span>
+        </button>
+    </section>
+
+    <div x-show="showAbout" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center p-4"
+         x-transition.opacity>
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="showAbout = false"></div>
+        <div class="bg-white p-6 rounded-2xl max-w-sm w-full relative card-pop overflow-y-auto max-h-[80vh]"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter-end="opacity-100 scale-100">
+            
+            <button @click="showAbout = false" class="absolute top-3 right-4 text-gray-400 text-xl font-bold">✕</button>
+            <h2 class="text-xl font-bold text-center text-[#5F6F52] mb-6 border-b-2 border-dashed border-[#9CAF88] pb-2">🍊 和歌山小檔案</h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-bold text-lg text-gray-700 mb-2">📍 地理位置</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed text-justify">
+                        和歌山縣位於日本最大的半島「紀伊半島」西南部。擁有綿延的海岸線與深邃的山林，以世界遺產熊野古道、高野山、南紀白濱溫泉、歷史悠久的和歌山城及豐富的「水果王國」特產（如蜜柑、梅子）聞名。
+                    </p>
+                </div>
+
+                <div class="bg-[#F7F9F4] p-4 rounded-xl">
+                    <h3 class="font-bold text-lg text-gray-700 mb-4">❄️ 12月當季情報</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="text-5xl mr-4 flex-shrink-0 leading-none">🍊</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-800 text-base mb-1">溫州蜜柑</h4>
+                                <p class="text-sm text-gray-600 leading-snug">正是完熟最甜的時候，路邊休息站或超市看到不要錯過。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center border-t border-dashed border-gray-300 pt-4">
+                            <div class="text-5xl mr-4 flex-shrink-0 leading-none">🐟</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-800 text-base mb-1">幻之魚 九繪</h4>
+                                <p class="text-sm text-gray-600 leading-snug">冬季和歌山限定高級魚種，富含膠原蛋白，超適合鍋物。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center border-t border-dashed border-gray-300 pt-4">
+                            <div class="text-5xl mr-4 flex-shrink-0 leading-none">♨️</div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-800 text-base mb-1">白濱溫泉</h4>
+                                <p class="text-sm text-gray-600 leading-snug">日本三大古湯之一，可以邊泡湯邊欣賞太平洋絕景。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button @click="showAbout = false" class="w-full bg-[#9CAF88] text-white py-2 rounded-full mt-6 font-bold btn-hand">知道了！</button>
+        </div>
+    </div>
+
+    <div x-show="showVJ" style="display: none;" class="fixed inset-0 z-50 flex items-center justify-center p-4"
+         x-transition.opacity>
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="showVJ = false"></div>
+        <div class="bg-white p-5 rounded-2xl max-w-sm w-full relative card-vjw overflow-y-auto max-h-[80vh]"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter-end="opacity-100 scale-100">
+            
+            <button @click="showVJ = false" class="absolute top-3 right-4 text-gray-400 text-xl font-bold">✕</button>
+            <h2 class="text-xl font-bold text-center text-[#596D7E] mb-4 border-b-2 border-dashed border-[#7E93A2] pb-2">✈️ 入境資料複製</h2>
+            <p class="text-xs text-center text-gray-400 mb-4">點擊右側按鈕即可複製文字</p>
+            
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" x-data="{ copied: false }">
+                    <div class="w-1/3 text-xs font-bold text-gray-500">入境日期</div>
+                    <div class="w-2/3 flex items-center justify-between pl-2">
+                        <span class="font-bold text-gray-800 text-sm truncate">2025/12/23</span>
+                        <button @click="navigator.clipboard.writeText('2025/12/23'); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="ml-2 text-xs px-2 py-1 rounded border transition-colors"
+                                :class="copied ? 'bg-green-100 text-green-600 border-green-200' : 'bg-white text-gray-500 border-gray-200'">
+                            <span x-text="copied ? 'OK' : '複製'"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" x-data="{ copied: false }">
+                    <div class="w-1/3 text-xs font-bold text-gray-500">航班代號</div>
+                    <div class="w-2/3 flex items-center justify-between pl-2">
+                        <span class="font-bold text-gray-800 text-sm truncate">IT 212</span>
+                        <button @click="navigator.clipboard.writeText('IT 212'); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="ml-2 text-xs px-2 py-1 rounded border transition-colors"
+                                :class="copied ? 'bg-green-100 text-green-600 border-green-200' : 'bg-white text-gray-500 border-gray-200'">
+                            <span x-text="copied ? 'OK' : '複製'"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" x-data="{ copied: false }">
+                    <div class="w-1/3 text-xs font-bold text-gray-500">出發地點</div>
+                    <div class="w-2/3 flex items-center justify-between pl-2">
+                        <span class="font-bold text-gray-800 text-sm truncate">TAIPEI</span>
+                        <button @click="navigator.clipboard.writeText('TAIPEI'); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="ml-2 text-xs px-2 py-1 rounded border transition-colors"
+                                :class="copied ? 'bg-green-100 text-green-600 border-green-200' : 'bg-white text-gray-500 border-gray-200'">
+                            <span x-text="copied ? 'OK' : '複製'"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg" x-data="{ copied: false }">
+                    <div class="w-1/3 text-xs font-bold text-gray-500">郵遞區號</div>
+                    <div class="w-2/3 flex items-center justify-between pl-2">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-gray-800 text-sm truncate">6408203</span>
+                            <span class="text-[10px] text-gray-400">由郵號自動輸入</span>
+                        </div>
+                        <button @click="navigator.clipboard.writeText('6408203'); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="ml-2 text-xs px-2 py-1 rounded border transition-colors"
+                                :class="copied ? 'bg-green-100 text-green-600 border-green-200' : 'bg-white text-gray-500 border-gray-200'">
+                            <span x-text="copied ? 'OK' : '複製'"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col p-3 bg-gray-50 rounded-lg" x-data="{ copied: false }">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="text-xs font-bold text-gray-500">酒店名稱</div>
+                        <button @click="navigator.clipboard.writeText('CANDEO HOTELS NANKAI WAKAYAMA'); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="text-xs px-2 py-1 rounded border transition-colors"
+                                :class="copied ? 'bg-green-100 text-green-600 border-green-200' : 'bg-white text-gray-500 border-gray-200'">
+                            <span x-text="copied ? 'OK' : '複製全文'"></span>
+                        </button>
+                    </div>
+                    <div class="font-bold text-gray-800 text-sm break-words leading-tight">
+                        CANDEO HOTELS NANKAI WAKAYAMA
+                    </div>
+                </div>
+            </div>
+            
+            <button @click="showVJ = false" class="w-full bg-[#7E93A2] text-white py-2 rounded-full mt-4 font-bold btn-hand">關閉</button>
+        </div>
+    </div>
+
+    <div x-show="showImageModal" style="display: none;" class="fixed inset-0 z-[60] flex items-center justify-center p-4"
+         x-transition.opacity>
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="showImageModal = false"></div>
+        
+        <div class="relative max-w-sm w-full"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-90"
+             x-transition:enter-end="opacity-100 scale-100">
+            
+            <button @click="showImageModal = false" class="absolute -top-10 right-0 text-white text-2xl font-bold p-2">✕</button>
+            
+            <div class="bg-white p-2 rounded-lg shadow-2xl">
+                <h3 class="text-center font-bold text-gray-600 mb-2" x-text="selectedImageTitle"></h3>
+                <img :src="selectedImageSrc" alt="憑證圖片" class="w-full rounded h-auto object-contain bg-gray-100 min-h-[300px]" 
+                     onerror="this.src='https://placehold.co/400x600/F3F4F6/9CA3AF?text=No+Image';">
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-md mx-auto space-y-0">
+        
+        <div x-data="{ open: true }" class="relative">
+            <div class="sticky top-0 z-30 bg-[#9CAF88] text-white p-4 cursor-pointer border-b border-white/20 shadow-md" 
+                 @click="open = !open">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="text-sm font-light opacity-90">12/23 (二)</span>
+                        <h2 class="text-xl font-bold">Day 1</h2>
+                    </div>
+                    <span class="text-xs bg-white/20 px-2 py-1 rounded">下夜班出發... 💤</span>
+                </div>
+            </div>
+            
+            <div x-show="open" class="bg-white px-5 py-6 space-y-8 border-l-4 border-[#9CAF88]">
+                
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#9CAF88]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">✈️ 航班資訊 (IT 212)</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed">
+                        出發囉！飛往關西國際機場。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p class="flex justify-between"><span>🛫 桃園出發</span> <span class="font-bold text-gray-700">14:40</span></p>
+                        <p class="flex justify-between"><span>🛬 抵達大阪</span> <span class="font-bold text-gray-700">17:55</span></p>
+                    </div>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#9CAF88]"></div>
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-700">📍 關西機場租車</h3>
+                        <button @click.stop="showImageModal = true; selectedImageSrc = 'car_rental_booking.jpg'; selectedImageTitle = '租車預約憑證'" 
+                                class="text-xs bg-[#9CAF88] text-white px-2 py-1 rounded shadow hover:bg-[#8A9F78]">
+                            📄 憑證
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        旅程起點！在機場櫃檯辦手續後前往停車場取車。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 <span class="font-bold text-gray-700">¥33,935</span> (現場付費)</p>
+                        <p>🕒 19:00 取車 / 至飯店約 40 min</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/Kansai+Airport+Rental+Car" target="_blank" class="mt-3 inline-block bg-[#9CAF88] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#9CAF88]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">🍽️ 晚餐參考：魚彩 よしはら</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        米其林推薦實力派居酒屋。主打和歌山在地海鮮，必吃太刀魚生魚片與蓮藕饅頭。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 預算約 ¥6,000 - ¥8,000/人</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/%E9%AD%9A%E5%BD%A9+%E3%82%88%E3%81%97%E3%81%AF%E3%82%89" target="_blank" class="mt-3 inline-block bg-[#9CAF88] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#9CAF88]"></div>
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-gray-700">🏨 CANDEO HOTELS</h3>
+                        <button @click.stop="showImageModal = true; selectedImageSrc = 'hotel_day1_booking.jpg'; selectedImageTitle = 'Day1 住宿憑證'" 
+                                class="text-xs bg-[#9CAF88] text-white px-2 py-1 rounded shadow hover:bg-[#8A9F78]">
+                            📄 憑證
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        與市車站共構，最大亮點是頂樓天空大浴場，邊泡湯邊看夜景。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 睿詩兩人房 ¥15,480 (現場付)</p>
+                        <p>💰 岱穎雙床房 ¥16,470 (現場付)</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/CANDEO+HOTELS+Nankai+Wakayama" target="_blank" class="mt-3 inline-block bg-[#9CAF88] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+            </div>
+        </div>
+
+        <div x-data="{ open: false }" class="relative">
+            <div class="sticky top-0 z-30 bg-[#7E93A2] text-white p-4 cursor-pointer border-b border-white/20 shadow-md" 
+                 @click="open = !open">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="text-sm font-light opacity-90">12/24 (三)</span>
+                        <h2 class="text-xl font-bold">Day 2  🎂 Happy Birthday </h2>
+                    </div>
+                    <span class="text-xs bg-white/20 px-2 py-1 rounded">先吃大餐再說 🍱</span>
+                </div>
+            </div>
+            
+            <div x-show="open" class="bg-white px-5 py-6 space-y-8 border-l-4 border-[#7E93A2]">
+                
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#7E93A2]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">🍶 平和酒造 (鶴梅/紀土)</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        廢校改建的知名酒藏，清酒「紀土」與梅酒「鶴梅」的發源地。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>水果酒尤其是梅酒是這裡的一大特色喔。</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/%E5%B9%B3%E5%92%8C%E9%85%92%E9%80%A0" target="_blank" class="mt-3 inline-block bg-[#7E93A2] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#7E93A2]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">🍱 召膳 無苦庵</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        隱身古民家的預約制料理，氛圍溫馨，提供精緻的在地料理。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p class="font-bold text-gray-700">💰 費用：¥24,000 / 人</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/%E5%8F%AC%E8%86%B3+%E7%84%A1%E8%8B%A6%E5%BA%B5" target="_blank" class="mt-3 inline-block bg-[#7E93A2] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#7E93A2]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">🌊 千疊敷 & 圓月島</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        白濱兩大自然奇景。千疊敷是層層白色岩盤；圓月島則是觀賞夕陽穿過海蝕洞的絕景。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 免費參觀</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/%E5%8D%83%E7%95%B3%E6%95%B7" target="_blank" class="mt-3 inline-block bg-[#7E93A2] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#7E93A2]"></div>
+                    <div class="flex justify-between items-start">
+                         <h3 class="font-bold text-lg text-gray-700">♨️ 濱千鳥之湯 海舟</h3>
+                         <button @click.stop="showImageModal = true; selectedImageSrc = 'hotel_day2_booking.jpg'; selectedImageTitle = 'Day2 住宿憑證'" 
+                                 class="text-xs bg-[#7E93A2] text-white px-2 py-1 rounded shadow hover:bg-[#6A7E8D]">
+                             📄 憑證
+                         </button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        奢華「獨立小屋」入住體驗！擁有極高隱私，晚餐享用冬季夢幻鯛魚鍋，還有露天風呂。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 <span class="font-bold text-gray-700">¥228,000</span> (現場刷卡)</p>
+                        <p>🏠 獨立小屋 (4人一間)</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/%E6%B5%9C%E5%8D%83%E9%B3%A5%E3%81%AE%E6%B9%AF+%E6%B5%B7%E8%88%9F" target="_blank" class="mt-3 inline-block bg-[#7E93A2] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div x-data="{ open: false }" class="relative">
+            <div class="sticky top-0 z-30 bg-[#B08E88] text-white p-4 cursor-pointer border-b border-white/20 shadow-md" 
+                 @click="open = !open">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="text-sm font-light opacity-90">12/25 (四)</span>
+                        <h2 class="text-xl font-bold">Day 3</h2>
+                    </div>
+                    <span class="text-xs bg-white/20 px-2 py-1 rounded">時差好了逛逛街 🛍️</span>
+                </div>
+            </div>
+            
+            <div x-show="open" class="bg-white px-5 py-6 space-y-8 border-l-4 border-[#B08E88]">
+                
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#B08E88]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">🐟 黑潮市場 & 遊艇城</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        充滿祭典氣氛！有機會看到鮪魚解體秀，推薦購買和歌山蜜柑汁與金山寺味噌。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 免費入場</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/%E9%BB%92%E6%BD%AE%E5%B8%82%E5%A0%B4" target="_blank" class="mt-3 inline-block bg-[#B08E88] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#B08E88]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">🍶 名手酒造 (黑牛茶屋)</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        知名清酒「黑牛」酒造。附設茶屋非常有氣氛，可以吃到人氣酒粕布丁與冰淇淋。
+                    </p>
+                    <a href="https://www.google.com/maps/search/%E5%90%8D%E6%89%8B%E9%85%92%E9%80%A0" target="_blank" class="mt-3 inline-block bg-[#B08E88] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#B08E88]"></div>
+                    <div class="flex justify-between items-start">
+                         <h3 class="font-bold text-lg text-gray-700">🏨 OMO 關西機場</h3>
+                         <button @click.stop="showImageModal = true; selectedImageSrc = 'hotel_day3_booking.jpg'; selectedImageTitle = 'Day3 住宿憑證'" 
+                                 class="text-xs bg-[#B08E88] text-white px-2 py-1 rounded shadow hover:bg-[#906E68]">
+                             📄 憑證
+                         </button>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        星野集團旗下機場飯店。先至臨空城 Toyota 還車後再辦理入住。
+                    </p>
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p>💰 ¥8,735 (8/12 已付)</p>
+                        <p class="font-bold text-[#B08E88]">🚗 18:00 前還車 (臨空城站前店)</p>
+                    </div>
+                    <div class="flex gap-2 mt-3">
+                         <a href="https://www.google.com/maps/search/OMO+Kansai+Airport" target="_blank" class="flex-1 text-center bg-[#B08E88] text-white text-sm py-2 rounded-full font-bold btn-hand">OMO 導航</a>
+                         <a href="https://www.google.com/maps/search/?api=1&query=Toyota+Rent-a-Car+Rinku+Town+Station+Front+Shop" target="_blank" class="flex-1 text-center bg-white text-[#B08E88] border border-[#B08E88] text-sm py-2 rounded-full font-bold btn-hand">還車導航 🚗</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div x-data="{ open: false }" class="relative">
+            <div class="sticky top-0 z-30 bg-[#7C8286] text-white p-4 cursor-pointer border-b border-white/20 shadow-md" 
+                 @click="open = !open">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <span class="text-sm font-light opacity-90">12/26 (五)</span>
+                        <h2 class="text-xl font-bold">Day 4</h2>
+                    </div>
+                    <span class="text-xs bg-white/20 px-2 py-1 rounded">要回去上班了 😭</span>
+                </div>
+            </div>
+            
+            <div x-show="open" class="bg-white px-5 py-6 space-y-8 border-l-4 border-[#7C8286]">
+                
+                <div class="relative pl-4 border-l-2 border-dashed border-gray-200">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#7C8286]"></div>
+                    <h3 class="font-bold text-lg text-gray-700">✈️ 關西機場返程 (IT 213)</h3>
+                    <p class="text-sm text-gray-600 mt-2 leading-relaxed text-justify">
+                        前往機場，該不會還得要上夜班吧！
+                    </p>
+                    
+                    <div class="mt-3 bg-gray-50 p-3 rounded text-xs text-gray-500 space-y-1">
+                        <p class="flex items-center gap-2 border-b border-dashed border-gray-200 pb-2 mb-2">
+                             <span>🚌</span> <span>飯店接駁車是08:00出發(約10分車程)，考慮搭電車時間選擇更多</span>
+                        </p>
+                        <p class="flex justify-between"><span>🛫 大阪出發</span> <span class="font-bold text-gray-700">11:30</span></p>
+                        <p class="flex justify-between"><span>🛬 抵達桃園</span> <span class="font-bold text-gray-700">13:50</span></p>
+                    </div>
+                    
+                    <a href="https://www.google.com/maps/search/Kansai+Airport+Terminal+1" target="_blank" class="mt-3 inline-block bg-[#7C8286] text-white text-sm py-2 px-6 rounded-full font-bold btn-hand">Google Map 導航</a>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-xs text-gray-400 pb-10 mt-12">
+        Alice's Trip 2025
+    </footer>
+
+</body>
+</html>
